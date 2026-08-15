@@ -3,10 +3,11 @@
 #include <queue>
 #include <unordered_map>
 using namespace std;
+using Pair = pair<double, int>;
 
 struct Edge {
 	int target_vertex;
-	float weight = 0;
+	double weight = 0;
 
 	friend ostream& operator<<(ostream& os, const Edge& e) {
 		os << "(target: " << e.target_vertex << ", weight: " << e.weight << ")" << endl;
@@ -37,7 +38,8 @@ class GraphPlanner {
 			graph = new_graph;
 		}
 
-		vector<int> dijkstra(int source_id, int target_id) {
+		vector<int> dijkstra(int source_id, int target_id = -1) {
+			// input validation
 			bool is_source_valid = false;
 			for (auto iter = graph.begin(); iter != graph.end(); iter++) {
 				if (iter->id == source_id) {
@@ -48,30 +50,42 @@ class GraphPlanner {
 			if (!is_source_valid) {
 				throw invalid_argument("Source ID does not exist in the current graph.");
 			}
-	
-			bool is_target_valid = false;
-			for (auto iter = graph.begin(); iter != graph.end(); iter++) {
-				if (iter->id == target_id) {
-					is_target_valid = true;	
-					break;
+			if (target_id != -1) { // if target given	
+				bool is_target_valid = false;
+				for (auto iter = graph.begin(); iter != graph.end(); iter++) {
+					if (iter->id == target_id) {
+						is_target_valid = true;	
+						break;
+					}
 				}
-			}
-			if (!is_target_valid) {
-				throw invalid_argument("Target ID does not exist in the current graph.");
+				if (!is_target_valid) {
+					throw invalid_argument("Target ID does not exist in the current graph.");
+				}
 			}
 
-			// memory
-			priority_queue<int> min_heap;
-			unordered_map<int, float> distance; // id, distance
+			// data structures
+			priority_queue<Pair, vector<Pair>, greater<Pair>> min_heap;
+			unordered_map<int, double> distance; // id, distance
 			unordered_map<int, int> previous; // id, id
-	
-			for (auto iter = graph.begin(); iter != graph.end(); iter++) {
-				distance.insert(make_pair(iter->id, numeric_limits<double>::infinity()));	
-				if (iter != graph.begin()) {
-					// add prev[v] = undefined
-				}
+
+			// initial values	
+			for (const Vertex& v : graph) {
+				distance[v.id] = numeric_limits<double>::infinity();
+				previous[v.id] = -1;
 			}
+			distance[source_id] = 0;
+			min_heap.push({0.0, source_id});
+
+			// traversal loop
+			while (!min_heap.empty()) {
+				auto [cur_dist, cur_id] = min_heap.top();
+				min_heap.pop();
+
+				cout << cur_id << endl;	
+				
+				// for each edge of cur_id
 			
+			}
 
 			return {};
 		}
@@ -84,7 +98,7 @@ int main() {
 	GraphPlanner graph_planner(graph);
 	
 	try {
-		graph_planner.dijkstra(1, 2);
+		graph_planner.dijkstra(1);
 	}
 	catch (const invalid_argument& e) {
 		cerr << "An error found: " << e.what() << endl;
