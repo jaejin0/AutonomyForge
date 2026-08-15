@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 using namespace std;
 
 struct Edge {
 	int target_vertex;
-	int weight = 0;
+	float weight = 0;
 
 	friend ostream& operator<<(ostream& os, const Edge& e) {
 		os << "(target: " << e.target_vertex << ", weight: " << e.weight << ")" << endl;
@@ -59,12 +60,19 @@ class GraphPlanner {
 				throw invalid_argument("Target ID does not exist in the current graph.");
 			}
 
-
+			// memory
 			priority_queue<int> min_heap;
-
+			unordered_map<int, float> distance; // id, distance
+			unordered_map<int, int> previous; // id, id
+	
 			for (auto iter = graph.begin(); iter != graph.end(); iter++) {
-				cout << *iter << endl;		
+				distance.insert(make_pair(iter->id, numeric_limits<double>::infinity()));	
+				if (iter != graph.begin()) {
+					// add prev[v] = undefined
+				}
 			}
+			
+
 			return {};
 		}
 };
