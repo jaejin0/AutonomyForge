@@ -1,7 +1,14 @@
-#include <iostream>
-using namespace std;
+#include "autonomyforge/core/types.hpp"
+#include "autonomyforge/core/geometry.hpp"
 
-int main(int argc, char** argv) {
-	cout << "main" << endl;
+# include <iostream>
+
+int main() {
+	using namespace autonomyforge;
+
+
+
+
+
 
 }
