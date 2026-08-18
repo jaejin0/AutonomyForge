@@ -1,5 +1,5 @@
 
-
+#include <vector>
 
 
 namespace autonomyforge {
@@ -30,5 +30,19 @@ struct AgentState {
 	Vec2 position;
 	Vec2 velocity;
 }
+
+struct World {
+	double width(0.0);
+	double height(0.0);
+
+	std::vector<Rect> obstacles{};
+	std::vector<AgentInfo> agents{};
+}
+
+
+
+
+
+
 
 }
