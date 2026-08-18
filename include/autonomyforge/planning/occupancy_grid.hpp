@@ -14,10 +14,35 @@ struct GridCell {
 
 class OccupancyGrid {
 public:
-	GridCell worldToCell(Vec2);
-	Vec2 cellToWorld(GridCell);
-	bool isInside(GridCell);
-	bool isBlocked(GridCell, double radius);
+	explicit OccupancyGrid(const World& world, double resolution = 1.0);
+
+	[[nodiscard]]
+	GridCell worldToCell(const Vec2& position) const;
+	
+	[[nodiscard]]
+	Vec2 cellToWorld(const GridCell& cell) const;
+		
+	[[nodiscard]]
+	bool isInside(const GridCell& cell) const;
+	
+	[[nodiscard]]
+	bool isBlocked(const GridCell& cell, double radius) const;
+
+	[[nodiscard]]
+	int widthInCells() const noexcept;
+
+	[[nodiscard]]
+	int heightInCells() const noexcept;
+
+
+private:
+	const World& world_;
+
+	double resolution_{1.0};
+
+	int width_cells_{0};
+	int height_cells_{0};
+}
 }
 
 
