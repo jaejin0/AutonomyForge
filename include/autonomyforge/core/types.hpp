@@ -17,7 +17,7 @@ struct Rect {
 	Vec2 max;
 }
 
-struct AgentState {
+struct AgentInfo {
 	AgentId id(0);
 	Vec2 start;
 	Vec2 goal;
@@ -25,5 +25,10 @@ struct AgentState {
 	double max_speed(1.0);
 };
 
+struct AgentState {
+	AgentId id(0);
+	Vec2 position;
+	Vec2 velocity;
+}
 
 }
